@@ -1,6 +1,6 @@
 namespace CadastroFornecedor.Api.Domain.Interfaces;
 
-public interface IRepository<EntityBase>
+public interface IRepository<EntityBase> : IDisposable
 {
     Task<EntityBase> ObterPorId(Guid id);
     Task Adicionar(EntityBase entity);
