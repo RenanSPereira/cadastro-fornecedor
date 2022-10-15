@@ -2,8 +2,8 @@ namespace CadastroFornecedor.Api.Domain.Interfaces;
 
 public interface IRepository<EntityBase>
 {
-    EntityBase ObterPorId(Guid id);
-    void Adicionar(EntityBase entity);
-    void Atualizar(EntityBase entity);
-    void Remover(EntityBase entity);
+    Task<EntityBase> ObterPorId(Guid id);
+    Task Adicionar(EntityBase entity);
+    Task Atualizar(EntityBase entity);
+    Task Remover(EntityBase entity);
 }
