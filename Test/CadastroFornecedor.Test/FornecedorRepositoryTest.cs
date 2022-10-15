@@ -61,4 +61,33 @@ public class FornecedorRepositoryTest
         //Verificação
         Assert.Null(resultado);
     }
+
+
+    [Fact]
+    public async Task Deve_Trazer_Todos_Os_Fornecedores_Cadastrados()
+    {
+        //contexto
+        var fornecedores = new List<Fornecedor>()
+        {
+            new Fornecedor("Nome Fantasia Teste", "Razao Social Teste",
+                new Cnpj("38.071.355/0001-44"), new Endereco("Logradouro Teste", "Bairro Teste", "520C"),
+                TipoFornecedor.NaoPereciveis),
+
+            new Fornecedor("Nome Fantasia Teste", "Razao Social Teste",
+                new Cnpj("38.071.355/0001-44"), new Endereco("Logradouro Teste", "Bairro Teste", "520C"),
+                TipoFornecedor.NaoPereciveis),
+
+            new Fornecedor("Nome Fantasia Teste", "Razao Social Teste",
+                new Cnpj("38.071.355/0001-44"), new Endereco("Logradouro Teste", "Bairro Teste", "520C"),
+                TipoFornecedor.NaoPereciveis)
+        };
+
+        _repositorio.ObterTodos().Returns(fornecedores);
+
+        //Ação
+        var resultado = await _repositorio.ObterTodos();
+
+        //Verificação
+        Assert.Equal(3, fornecedores.Count);
+    }
 }
