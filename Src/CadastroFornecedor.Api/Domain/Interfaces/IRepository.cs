@@ -6,4 +6,5 @@ public interface IRepository<EntityBase>
     Task Adicionar(EntityBase entity);
     Task Atualizar(EntityBase entity);
     Task Remover(EntityBase entity);
+    Task<IEnumerable<EntityBase>> ObterTodos(); 
 }
