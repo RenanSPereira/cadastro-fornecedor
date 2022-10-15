@@ -10,6 +10,8 @@ public abstract class EntityBase
     public EntityBase()
     {
         Id = Guid.NewGuid();
+        DataCadastro = DateTime.Now;
+        DataAlteracao = DateTime.Now;
     }
 
     public void MarcarComoExcluido() => Excluido = true;
