@@ -7,5 +7,10 @@ public abstract class EntityBase
     public DateTime DataAlteracao { get; private set; }
     public bool Excluido { get; private set; }
 
+    public EntityBase()
+    {
+        Id = Guid.NewGuid();
+    }
+
     public void MarcarComoExcluido() => Excluido = true;
 }
