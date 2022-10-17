@@ -10,5 +10,5 @@ public class FornecedorModel
     public string? Logradouro { get; set; }
     public string? Bairro { get; set; }
     public string? Numero { get; set; }
-    public TipoFornecedor TipoFornecedor { get; private set; }
+    public TipoFornecedor TipoFornecedor { get; set; }
 }
