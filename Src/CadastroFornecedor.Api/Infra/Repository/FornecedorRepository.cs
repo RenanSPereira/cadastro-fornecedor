@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CadastroFornecedor.Api.Infra.Repository;
 
-public class FornecedorRepository : IRepository<Fornecedor>
+public class FornecedorRepository : IFornecedorRepository
 {
     private readonly CadastroFornecedorContext _context;
 
