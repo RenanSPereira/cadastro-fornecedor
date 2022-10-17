@@ -40,4 +40,14 @@ public class FornecedorController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    [HttpDelete("remover/{id:guid}")]
+    public async Task<ActionResult<string>> RemoverFornecedor(Guid id)
+    {
+        var resultado = await _fornecedorService.RemoverFornecedor(id);
+
+        if (resultado.Key == -1) return BadRequest(resultado.Value);
+
+        return Ok(resultado.Value);
+    }
 }

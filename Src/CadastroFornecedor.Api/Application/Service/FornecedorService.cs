@@ -15,7 +15,7 @@ public class FornecedorService : IFornecedorService
     {
         _repositoryFornecedor = repositoryFornecedor;
     }
-    
+
     public async Task<FornecedorViewModel> ObterFornecedorPorId(Guid id)
     {
         var fornecedor = await _repositoryFornecedor.ObterPorId(id);
@@ -35,6 +35,20 @@ public class FornecedorService : IFornecedorService
         await _repositoryFornecedor.Adicionar(novoFornecedor);
 
         return novoFornecedor.Id;
+    }
+
+    public async Task<KeyValuePair<int, string>> RemoverFornecedor(Guid id)
+    {
+        var fornecedor = await _repositoryFornecedor.ObterPorId(id);
+
+        if (fornecedor is null)
+        {
+            return new KeyValuePair<int, string>(-1, "Fornecedor Não Encontrado");
+        }
+
+        await _repositoryFornecedor.Remover(fornecedor);
+
+        return new KeyValuePair<int, string>(0, "Fornecedor removido");
     }
 
     public void Dispose()

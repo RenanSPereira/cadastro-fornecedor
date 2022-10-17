@@ -7,4 +7,5 @@ public interface IFornecedorService : IDisposable
 {
     Task<FornecedorViewModel> ObterFornecedorPorId(Guid id);
     Task<Guid> CadastrarFornecedor(FornecedorModel fornecedor);
+    Task<KeyValuePair<int, string>> RemoverFornecedor(Guid id);
 }
