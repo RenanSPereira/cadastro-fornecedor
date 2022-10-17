@@ -1,4 +1,6 @@
+using CadastroFornecedor.Api.Domain.Interfaces;
 using CadastroFornecedor.Api.Infra.Data;
+using CadastroFornecedor.Api.Infra.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//configuracao banco de dados
 var conexao = builder.Configuration.GetConnectionString("FornecedorConnection");
 builder.Services.AddDbContext<CadastroFornecedorContext>(options => options.UseSqlite(conexao));
+
+//configuracao injecao dependencia
+builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
 
 var app = builder.Build();
 
