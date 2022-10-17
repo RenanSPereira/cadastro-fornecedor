@@ -51,6 +51,12 @@ public class FornecedorService : IFornecedorService
         return new KeyValuePair<int, string>(0, "Fornecedor removido");
     }
 
+    public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
+    {
+        var fornecedores = await _repositoryFornecedor.ObterTodos();
+        return fornecedores.Select(FornecedorViewModel.Mapear).ToList();
+    }
+
     public void Dispose()
     {
         _repositoryFornecedor?.Dispose();

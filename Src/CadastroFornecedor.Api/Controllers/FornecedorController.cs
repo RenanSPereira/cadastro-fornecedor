@@ -50,4 +50,11 @@ public class FornecedorController : ControllerBase
 
         return Ok(resultado.Value);
     }
+
+    [HttpGet("obter-todos")]
+    public async Task<ActionResult<IEnumerable<FornecedorViewModel>>> ObterTodos()
+    {
+        var resultado = _fornecedorService.ObterTodos();
+        return Ok(resultado);
+    }
 }
