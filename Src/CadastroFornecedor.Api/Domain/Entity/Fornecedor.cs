@@ -19,4 +19,6 @@ public class Fornecedor : EntityBase
         Endereco = endereco;
         TipoFornecedor = tipoFornecedor;
     }
+
+    protected Fornecedor() {}
 }
