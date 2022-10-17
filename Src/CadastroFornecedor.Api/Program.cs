@@ -1,3 +1,6 @@
+using CadastroFornecedor.Api.Infra.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var conexao = builder.Configuration.GetConnectionString("FornecedorConnection");
+builder.Services.AddDbContext<CadastroFornecedorContext>(options => options.UseSqlite(conexao));
 
 var app = builder.Build();
 
