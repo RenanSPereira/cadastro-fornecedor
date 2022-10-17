@@ -28,7 +28,7 @@ public class FornecedorRepository : IFornecedorRepository
 
     public async Task<Fornecedor?> ObterPorId(Guid id)
     {
-        return await _context.Fornecedores.FindAsync(id);
+        return await _context.Fornecedores.FirstOrDefaultAsync(x => x.Id == id && !x.Excluido);
     }
 
     public async Task<IEnumerable<Fornecedor>> ObterTodos()
