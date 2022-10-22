@@ -7,10 +7,12 @@ namespace CadastroFornecedor.Api.Configuration;
 
 public static class ConfiguraInjecaoDependencia
 {
-    public static void ConfiguraDependencias(this IServiceCollection service)
+    public static IServiceCollection ConfiguraDependencias(this IServiceCollection service)
     {
         //configuracao injecao dependencia
         service.AddScoped<IFornecedorRepository, FornecedorRepository>();
         service.AddScoped<IFornecedorService, FornecedorService>();
+
+        return service;
     }
 }
