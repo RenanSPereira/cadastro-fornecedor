@@ -1,5 +1,6 @@
 using CadastroFornecedor.Api.Configuration;
 using CadastroFornecedor.Api.Infra.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,11 @@ var conexao = builder.Configuration.GetConnectionString("FornecedorConnection");
 builder.Services.AddDbContext<CadastroFornecedorContext>(options => options.UseSqlite(conexao));
 
 builder.Services.ConfiguraDependencias();
+
+builder.Services.Configure<ApiBehaviorOptions>(options => 
+{
+    options.SuppressModelStateInvalidFilter = true;
+});  
 
 var app = builder.Build();
 
