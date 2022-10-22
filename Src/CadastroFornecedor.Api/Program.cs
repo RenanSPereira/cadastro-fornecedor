@@ -1,5 +1,6 @@
 using CadastroFornecedor.Api.Application.Service;
 using CadastroFornecedor.Api.Application.Service.Interface;
+using CadastroFornecedor.Api.Configuration;
 using CadastroFornecedor.Api.Domain.Interfaces;
 using CadastroFornecedor.Api.Infra.Data;
 using CadastroFornecedor.Api.Infra.Repository;
@@ -18,9 +19,7 @@ builder.Services.AddSwaggerGen();
 var conexao = builder.Configuration.GetConnectionString("FornecedorConnection");
 builder.Services.AddDbContext<CadastroFornecedorContext>(options => options.UseSqlite(conexao));
 
-//configuracao injecao dependencia
-builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
-builder.Services.AddScoped<IFornecedorService, FornecedorService>();
+builder.Services.ConfiguraDependencias();
 
 var app = builder.Build();
 
