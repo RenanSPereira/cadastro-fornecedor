@@ -1,6 +1,7 @@
 using CadastroFornecedor.Api.Application.Model;
-using CadastroFornecedor.Api.Application.Service.Interface;
 using CadastroFornecedor.Api.Application.ViewModel;
+using CadastroFornecedor.Api.Domain.Interfaces;
+using CadastroFornecedor.Api.Domain.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroFornecedor.Api.Controllers;
@@ -10,18 +11,22 @@ namespace CadastroFornecedor.Api.Controllers;
 public class FornecedorController : ControllerBase
 {
     private readonly IFornecedorService _fornecedorService;
+    private readonly IFornecedorRepository _fornecedorRepository;
 
-    public FornecedorController(IFornecedorService fornecedorService)
+    public FornecedorController(IFornecedorService fornecedorService, IFornecedorRepository fornecedorRepository)
     {
         _fornecedorService = fornecedorService;
+        _fornecedorRepository = fornecedorRepository;
     }
 
     [HttpGet("obter-por-id/{id:guid}")]
     public async Task<ActionResult<FornecedorViewModel>> ObterFornecedorPorId(Guid id)
     {
-        var fornecedor = await _fornecedorService.ObterFornecedorPorId(id);
+        var fornecedor = await _fornecedorRepository.ObterPorId(id);
 
         if (fornecedor is null) return BadRequest();
+
+        var fornecedorViewModel = FornecedorViewModel.Mapear(fornecedor);
 
         return Ok(fornecedor);
     }
@@ -54,7 +59,7 @@ public class FornecedorController : ControllerBase
     [HttpGet("obter-todos")]
     public async Task<ActionResult<IEnumerable<FornecedorViewModel>>> ObterTodos()
     {
-        var resultado = _fornecedorService.ObterTodos();
+        var resultado = await _fornecedorRepository.ObterTodos();
         return Ok(resultado);
     }
 }

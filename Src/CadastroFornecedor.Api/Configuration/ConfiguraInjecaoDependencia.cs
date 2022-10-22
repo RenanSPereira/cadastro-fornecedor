@@ -1,6 +1,5 @@
-using CadastroFornecedor.Api.Application.Service;
-using CadastroFornecedor.Api.Application.Service.Interface;
 using CadastroFornecedor.Api.Domain.Interfaces;
+using CadastroFornecedor.Api.Domain.Service.Interface;
 using CadastroFornecedor.Api.Infra.Repository;
 
 namespace CadastroFornecedor.Api.Configuration;
