@@ -1,11 +1,6 @@
-using CadastroFornecedor.Api.Application.Service;
-using CadastroFornecedor.Api.Application.Service.Interface;
 using CadastroFornecedor.Api.Configuration;
-using CadastroFornecedor.Api.Domain.Interfaces;
 using CadastroFornecedor.Api.Infra.Data;
-using CadastroFornecedor.Api.Infra.Repository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
