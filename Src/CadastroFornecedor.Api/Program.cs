@@ -15,15 +15,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "API Cadastro de Fornecedores",
-        Description = "Web API Para Gerencias Cadastros de Fornecedores",
-    });
-});
+builder.Services.AdicionarConfiguracaoSwagger();
 
 //configuracao banco de dados
 var conexao = builder.Configuration.GetConnectionString("FornecedorConnection");
