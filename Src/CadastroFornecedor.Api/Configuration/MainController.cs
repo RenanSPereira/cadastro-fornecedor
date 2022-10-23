@@ -46,4 +46,9 @@ public abstract class MainController : ControllerBase
     {
         return _erros.Any();
     }
+
+    protected void AdicionarErro(string mensagem)
+    {
+        _erros.Add(mensagem);
+    }
 }
