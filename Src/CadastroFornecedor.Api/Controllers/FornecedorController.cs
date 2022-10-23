@@ -1,14 +1,14 @@
 using CadastroFornecedor.Api.Application.Model;
 using CadastroFornecedor.Api.Application.ViewModel;
+using CadastroFornecedor.Api.Configuration;
 using CadastroFornecedor.Api.Domain.Interfaces;
 using CadastroFornecedor.Api.Domain.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroFornecedor.Api.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class FornecedorController : ControllerBase
+[Route("api/fornecedor")]
+public class FornecedorController : MainController
 {
     private readonly IFornecedorService _fornecedorService;
     private readonly IFornecedorRepository _fornecedorRepository;
@@ -34,16 +34,10 @@ public class FornecedorController : ControllerBase
     [HttpPost("cadastrar")]
     public async Task<ActionResult<Guid>> CadastrarFornecedor(FornecedorModel model)
     {
-        try
-        {
-            var resultado = await _fornecedorService.CadastrarFornecedor(model);
-            return Ok(resultado);
-        }
-        catch (ArgumentException e)
-        {
+        if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            return BadRequest(e.Message);
-        }
+        var resultado = await _fornecedorService.CadastrarFornecedor(model);
+        return CustomResponse(resultado);
     }
 
     [HttpDelete("remover/{id:guid}")]
