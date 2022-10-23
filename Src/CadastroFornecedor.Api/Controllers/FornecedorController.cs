@@ -24,11 +24,15 @@ public class FornecedorController : MainController
     {
         var fornecedor = await _fornecedorRepository.ObterPorId(id);
 
-        if (fornecedor is null) return BadRequest();
+        if (fornecedor is null) 
+        {
+            AdicionarErro("Fornecedor não encontrado");
+            return CustomResponse();
+        }
 
         var fornecedorViewModel = FornecedorViewModel.Mapear(fornecedor);
 
-        return Ok(fornecedor);
+        return CustomResponse(fornecedor);
     }
 
     [HttpPost("cadastrar")]
