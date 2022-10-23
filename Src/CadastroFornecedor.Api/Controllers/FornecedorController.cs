@@ -57,13 +57,15 @@ public class FornecedorController : MainController
     [HttpGet("obter-todos")]
     public async Task<ActionResult<IEnumerable<FornecedorViewModel>>> ObterTodos()
     {
-        var resultado = await _fornecedorRepository.ObterTodos();
+        var fornecedores = await _fornecedorRepository.ObterTodos();
 
-        if (resultado.Count() == 0)
+        if (fornecedores.Count() == 0)
         {
             AdicionarErro("Não há fornecedor cadastrado");
         } 
 
-        return CustomResponse(resultado);
+        var fornecedoresViewModel = fornecedores.Select(FornecedorViewModel.Mapear).ToList();
+
+        return CustomResponse(fornecedoresViewModel);
     }
 }
