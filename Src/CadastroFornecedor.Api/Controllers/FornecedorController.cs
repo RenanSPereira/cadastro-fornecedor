@@ -19,7 +19,7 @@ public class FornecedorController : MainController
         _fornecedorRepository = fornecedorRepository;
     }
 
-    [HttpGet("obter-por-id/{id:guid}")]
+    [HttpGet("{id:guid}")]
     public async Task<ActionResult<FornecedorViewModel>> ObterFornecedorPorId(Guid id)
     {
         var fornecedor = await _fornecedorRepository.ObterPorId(id);
@@ -35,7 +35,7 @@ public class FornecedorController : MainController
         return CustomResponse(fornecedor);
     }
 
-    [HttpPost("cadastrar")]
+    [HttpPost]
     public async Task<ActionResult<Guid>> CadastrarFornecedor(FornecedorModel model)
     {
         if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -44,7 +44,7 @@ public class FornecedorController : MainController
         return CustomResponse(resultado);
     }
 
-    [HttpDelete("remover/{id:guid}")]
+    [HttpDelete("{id:guid}")]
     public async Task<ActionResult<string>> RemoverFornecedor(Guid id)
     {
         var resultado = await _fornecedorService.RemoverFornecedor(id);
@@ -54,7 +54,7 @@ public class FornecedorController : MainController
         return Ok(resultado.Value);
     }
 
-    [HttpGet("obter-todos")]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<FornecedorViewModel>>> ObterTodos()
     {
         var fornecedores = await _fornecedorRepository.ObterTodos();
