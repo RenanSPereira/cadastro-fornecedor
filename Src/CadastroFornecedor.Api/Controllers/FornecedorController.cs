@@ -1,47 +1,63 @@
 using CadastroFornecedor.Api.Application.Model;
-using CadastroFornecedor.Api.Application.Service.Interface;
 using CadastroFornecedor.Api.Application.ViewModel;
+using CadastroFornecedor.Api.Configuration;
+using CadastroFornecedor.Api.Domain.Interfaces;
+using CadastroFornecedor.Api.Domain.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroFornecedor.Api.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class FornecedorController : ControllerBase
+[Route("api/fornecedor")]
+public class FornecedorController : MainController
 {
     private readonly IFornecedorService _fornecedorService;
+    private readonly IFornecedorRepository _fornecedorRepository;
 
-    public FornecedorController(IFornecedorService fornecedorService)
+    public FornecedorController(IFornecedorService fornecedorService, IFornecedorRepository fornecedorRepository)
     {
         _fornecedorService = fornecedorService;
+        _fornecedorRepository = fornecedorRepository;
     }
 
-    [HttpGet("obter-por-id/{id:guid}")]
+    /// <summary>
+    /// Obter Fornecedor por Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>Fornecedor</returns>
+    [HttpGet("{id:guid}")]
     public async Task<ActionResult<FornecedorViewModel>> ObterFornecedorPorId(Guid id)
     {
-        var fornecedor = await _fornecedorService.ObterFornecedorPorId(id);
+        var fornecedor = await _fornecedorRepository.ObterPorId(id);
 
-        if (fornecedor is null) return BadRequest();
+        if (fornecedor is null)
+        {
+            AdicionarErro("Fornecedor não encontrado");
+            return CustomResponse();
+        }
 
-        return Ok(fornecedor);
+        var fornecedorViewModel = FornecedorViewModel.Mapear(fornecedor);
+
+        return CustomResponse(fornecedor);
     }
 
-    [HttpPost("cadastrar")]
+    /// <summary>
+    /// Cadastra um fornecedor
+    /// </summary>
+    /// <returns>Retorna o Id do novo fornecedor cadastrado</returns>
+    [HttpPost]
     public async Task<ActionResult<Guid>> CadastrarFornecedor(FornecedorModel model)
     {
-        try
-        {
-            var resultado = await _fornecedorService.CadastrarFornecedor(model);
-            return Ok(resultado);
-        }
-        catch (ArgumentException e)
-        {
+        if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            return BadRequest(e.Message);
-        }
+        var resultado = await _fornecedorService.CadastrarFornecedor(model);
+        return CustomResponse(resultado);
     }
-
-    [HttpDelete("remover/{id:guid}")]
+    /// <summary>
+    /// Remove um fornecedor
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id:guid}")]
     public async Task<ActionResult<string>> RemoverFornecedor(Guid id)
     {
         var resultado = await _fornecedorService.RemoverFornecedor(id);
@@ -51,10 +67,21 @@ public class FornecedorController : ControllerBase
         return Ok(resultado.Value);
     }
 
-    [HttpGet("obter-todos")]
+    /// <summary>
+    /// Obter todos os fonecedores 
+    /// </summary>
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<FornecedorViewModel>>> ObterTodos()
     {
-        var resultado = _fornecedorService.ObterTodos();
-        return Ok(resultado);
+        var fornecedores = await _fornecedorRepository.ObterTodos();
+
+        if (fornecedores.Count() == 0)
+        {
+            AdicionarErro("Não há fornecedor cadastrado");
+        }
+
+        var fornecedoresViewModel = fornecedores.Select(FornecedorViewModel.Mapear).ToList();
+
+        return CustomResponse(fornecedoresViewModel);
     }
 }

@@ -1,8 +1,6 @@
-using CadastroFornecedor.Api.Application.Service;
-using CadastroFornecedor.Api.Application.Service.Interface;
-using CadastroFornecedor.Api.Domain.Interfaces;
+using CadastroFornecedor.Api.Configuration;
 using CadastroFornecedor.Api.Infra.Data;
-using CadastroFornecedor.Api.Infra.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,15 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AdicionarConfiguracaoSwagger();
 
 //configuracao banco de dados
 var conexao = builder.Configuration.GetConnectionString("FornecedorConnection");
 builder.Services.AddDbContext<CadastroFornecedorContext>(options => options.UseSqlite(conexao));
 
-//configuracao injecao dependencia
-builder.Services.AddScoped<IFornecedorRepository, FornecedorRepository>();
-builder.Services.AddScoped<IFornecedorService, FornecedorService>();
+builder.Services.ConfiguraDependencias();
+
+builder.Services.Configure<ApiBehaviorOptions>(options => 
+{
+    options.SuppressModelStateInvalidFilter = true;
+});  
 
 var app = builder.Build();
 
