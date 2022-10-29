@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.OpenApi.Models;
 
 namespace CadastroFornecedor.Api.Configuration;
@@ -14,6 +15,9 @@ public static class ConfiguracaoSwagger
                 Title = "API Cadastro de Fornecedores",
                 Description = "Web API Para Gerencias Cadastros de Fornecedores",
             });
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
         return service;
     }
