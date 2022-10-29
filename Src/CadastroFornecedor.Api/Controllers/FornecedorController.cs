@@ -19,12 +19,17 @@ public class FornecedorController : MainController
         _fornecedorRepository = fornecedorRepository;
     }
 
+    /// <summary>
+    /// Obter Fornecedor por Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>Fornecedor</returns>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<FornecedorViewModel>> ObterFornecedorPorId(Guid id)
     {
         var fornecedor = await _fornecedorRepository.ObterPorId(id);
 
-        if (fornecedor is null) 
+        if (fornecedor is null)
         {
             AdicionarErro("Fornecedor não encontrado");
             return CustomResponse();
@@ -35,6 +40,10 @@ public class FornecedorController : MainController
         return CustomResponse(fornecedor);
     }
 
+    /// <summary>
+    /// Cadastra um fornecedor
+    /// </summary>
+    /// <returns>Retorna o Id do novo fornecedor cadastrado</returns>
     [HttpPost]
     public async Task<ActionResult<Guid>> CadastrarFornecedor(FornecedorModel model)
     {
@@ -43,7 +52,11 @@ public class FornecedorController : MainController
         var resultado = await _fornecedorService.CadastrarFornecedor(model);
         return CustomResponse(resultado);
     }
-
+    /// <summary>
+    /// Remove um fornecedor
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<string>> RemoverFornecedor(Guid id)
     {
@@ -54,6 +67,9 @@ public class FornecedorController : MainController
         return Ok(resultado.Value);
     }
 
+    /// <summary>
+    /// Obter todos os fonecedores 
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<FornecedorViewModel>>> ObterTodos()
     {
@@ -62,7 +78,7 @@ public class FornecedorController : MainController
         if (fornecedores.Count() == 0)
         {
             AdicionarErro("Não há fornecedor cadastrado");
-        } 
+        }
 
         var fornecedoresViewModel = fornecedores.Select(FornecedorViewModel.Mapear).ToList();
 
