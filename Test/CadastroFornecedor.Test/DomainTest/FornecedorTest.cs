@@ -2,7 +2,7 @@ using CadastroFornecedor.Api.Domain.Entity;
 using CadastroFornecedor.Api.Domain.Enum;
 using CadastroFornecedor.Api.Domain.ValueObject;
 
-namespace CadastroFornecedor.Test;
+namespace CadastroFornecedor.Test.DomainTest;
 
 public class FornecedorTest
 {

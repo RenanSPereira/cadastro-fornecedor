@@ -5,7 +5,7 @@ using CadastroFornecedor.Api.Domain.ValueObject;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
-namespace CadastroFornecedor.Test;
+namespace CadastroFornecedor.Test.DomainTest;
 
 public class FornecedorRepositoryTest
 {
