@@ -6,5 +6,5 @@ namespace CadastroFornecedor.Api.Domain.Service.Interface;
 public interface IFornecedorService : IDisposable
 {
     Task<Guid> CadastrarFornecedor(FornecedorModel fornecedor);
-    Task<KeyValuePair<int, string>> RemoverFornecedor(Guid id);
+    Task<Guid> RemoverFornecedor(Guid id);
 }

@@ -2,6 +2,7 @@ using CadastroFornecedor.Api.Application.Model;
 using CadastroFornecedor.Api.Application.ViewModel;
 using CadastroFornecedor.Api.Configuration;
 using CadastroFornecedor.Api.Domain.Interfaces;
+using CadastroFornecedor.Api.Domain.Notification;
 using CadastroFornecedor.Api.Domain.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +13,14 @@ public class FornecedorController : MainController
 {
     private readonly IFornecedorService _fornecedorService;
     private readonly IFornecedorRepository _fornecedorRepository;
+    private readonly INotification _notificacao;
 
-    public FornecedorController(IFornecedorService fornecedorService, IFornecedorRepository fornecedorRepository)
+    public FornecedorController(IFornecedorService fornecedorService, IFornecedorRepository fornecedorRepository, INotification notificacao)
+    : base(notificacao)
     {
         _fornecedorService = fornecedorService;
         _fornecedorRepository = fornecedorRepository;
+        _notificacao = notificacao;
     }
 
     /// <summary>
@@ -62,9 +66,10 @@ public class FornecedorController : MainController
     {
         var resultado = await _fornecedorService.RemoverFornecedor(id);
 
-        if (resultado.Key == -1) return BadRequest(resultado.Value);
+        if (resultado == Guid.Empty) return CustomResponse();
 
-        return Ok(resultado.Value);
+        return CustomResponse($"Fornecedor removido com sucesso, Id: {resultado}");
+
     }
 
     /// <summary>

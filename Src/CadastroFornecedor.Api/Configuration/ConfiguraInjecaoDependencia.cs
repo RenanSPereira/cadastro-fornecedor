@@ -1,4 +1,5 @@
 using CadastroFornecedor.Api.Domain.Interfaces;
+using CadastroFornecedor.Api.Domain.Notification;
 using CadastroFornecedor.Api.Domain.Service.Interface;
 using CadastroFornecedor.Api.Infra.Repository;
 
@@ -11,6 +12,7 @@ public static class ConfiguraInjecaoDependencia
         //configuracao injecao dependencia
         service.AddScoped<IFornecedorRepository, FornecedorRepository>();
         service.AddScoped<IFornecedorService, FornecedorService>();
+        service.AddScoped<INotification, NotificationHandler>();
 
         return service;
     }
