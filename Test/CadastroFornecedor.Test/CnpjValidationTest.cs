@@ -1,3 +1,4 @@
+using CadastroFornecedor.Api.Domain.Validation;
 using CadastroFornecedor.Api.Domain.ValueObject;
 
 namespace CadastroFornecedor.Test;
@@ -5,16 +6,14 @@ namespace CadastroFornecedor.Test;
 public class CnpjValidationTest
 {
     [Fact]
-    public void Deve_Lancar_Exception_Para_Cnpj_Invalido()
+    public void Deve_Retornar_False_Para_CNPJ_Invalido()
     {
-        var exception = Assert.Throws<ArgumentException>(() => new Cnpj("12121"));
-        Assert.Equal("Cnpj inválido", exception.Message);
+        Assert.False(new CnpjValidation("121212121").Validar());
     }
 
     [Fact]
-    public void Deve_Criar_Cnpj_Com_Numero_Valido()
+    public void Deve_Retornar_True_Para_CNPJ_Valido()
     {
-        var cnpj = new Cnpj("38.071.355/0001-44");
-        Assert.Equal("38.071.355/0001-44", cnpj.Numero);
+        Assert.True(new CnpjValidation("38.071.355/0001-44").Validar());
     }
 }
