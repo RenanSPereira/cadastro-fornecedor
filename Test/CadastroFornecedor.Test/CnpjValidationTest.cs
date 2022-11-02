@@ -2,7 +2,7 @@ using CadastroFornecedor.Api.Domain.ValueObject;
 
 namespace CadastroFornecedor.Test;
 
-public class CnpjTest
+public class CnpjValidationTest
 {
     [Fact]
     public void Deve_Lancar_Exception_Para_Cnpj_Invalido()
