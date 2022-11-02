@@ -1,3 +1,4 @@
+using CadastroFornecedor.Api.Domain.Notification;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -7,16 +8,21 @@ namespace CadastroFornecedor.Api.Configuration;
 [ApiController]
 public abstract class MainController : ControllerBase
 {
-    private List<string> _erros = new List<string>();
-    
+    private readonly INotification _notificacao;
+
+    protected MainController(INotification notificacao)
+    {
+        _notificacao = notificacao;
+    }
+
     protected ActionResult CustomResponse(object? resultado = null)
     {
-        if (PossuiErros())
+        if (_notificacao.ExisteNotificacao())
         {
             return BadRequest(new
             {
                 sucesso = false,
-                data = _erros.Select(x => x)
+                data = _notificacao.ObterNotificacoes()
             });
         }
 
@@ -36,19 +42,14 @@ public abstract class MainController : ControllerBase
             foreach (var erro in erros)
             {
                 var message = erro.Exception is null ? erro.ErrorMessage : erro.Exception.Message;
-                _erros.Add(message);
+                _notificacao.AdicionarNotificacao(message);
             }
         }
         return CustomResponse();
     }
 
-    private bool PossuiErros()
-    {
-        return _erros.Any();
-    }
-
     protected void AdicionarErro(string mensagem)
     {
-        _erros.Add(mensagem);
+        _notificacao.AdicionarNotificacao(mensagem);
     }
 }
