@@ -66,9 +66,10 @@ public class FornecedorController : MainController
     {
         var resultado = await _fornecedorService.RemoverFornecedor(id);
 
-        if (resultado.Key == -1) return BadRequest(resultado.Value);
+        if (resultado == Guid.Empty) return CustomResponse();
 
-        return Ok(resultado.Value);
+        return CustomResponse($"Fornecedor removido com sucesso, Id: {resultado}");
+
     }
 
     /// <summary>

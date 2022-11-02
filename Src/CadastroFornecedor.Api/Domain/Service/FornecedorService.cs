@@ -38,18 +38,19 @@ public class FornecedorService : IFornecedorService
         return novoFornecedor.Id;
     }
 
-    public async Task<KeyValuePair<int, string>> RemoverFornecedor(Guid id)
+    public async Task<Guid> RemoverFornecedor(Guid id)
     {
         var fornecedor = await _repositoryFornecedor.ObterPorId(id);
 
         if (fornecedor is null)
         {
-            return new KeyValuePair<int, string>(-1, "Fornecedor Não Encontrado");
+            _notificacao.AdicionarNotificacao("Fornecedor Não Encontrado");
+            return Guid.Empty;
         }
 
         await _repositoryFornecedor.Remover(fornecedor);
 
-        return new KeyValuePair<int, string>(0, "Fornecedor removido");
+        return fornecedor.Id;
     }
 
 
