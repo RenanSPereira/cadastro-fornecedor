@@ -3,7 +3,6 @@ namespace CadastroFornecedor.Api.Domain.Notification;
 public class NotificationHandler : INotification
 {
     private List<Notificacao> _notificacoes;
-    public IReadOnlyCollection<Notificacao> Notificacoes => _notificacoes;
 
     public NotificationHandler()
     {
@@ -18,5 +17,10 @@ public class NotificationHandler : INotification
     public void AdicionarNotificacao(string notificacao)
     {
         _notificacoes.Add(new Notificacao(notificacao));
+    }
+
+    public IReadOnlyCollection<Notificacao> ObterNotificacoes()
+    {
+        return _notificacoes;
     }
 }
